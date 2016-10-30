@@ -79,7 +79,8 @@ Yamaha.prototype.getVolume = function(){
 Yamaha.prototype.setVolume = function(volume){
   var xml = this.commands.setVolumeCommand(volume);
   return deferredAction(this.discovery, xml, function(result){
-    return result.YAMAHA_AV.Main_Zone[0].Volume[0].Lvl[0].Val[0];
+    // Responses Lvl is ''
+    return result.YAMAHA_AV.Main_Zone[0].Volume[0].Lvl[0] !== undefined;
   });
 };
 
