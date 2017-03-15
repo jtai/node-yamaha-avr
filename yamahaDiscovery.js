@@ -3,12 +3,13 @@ var Q = require('q');
 var Request = require('request');
 var parseString = require('xml2js').parseString;
 
-function YamahaDiscovery(ip){
+function YamahaDiscovery(ip, filter){
   this.ssdpClient = new SsdpClient();
   this.st = 'urn:schemas-upnp-org:device:MediaRenderer:1';
   this.url = 'http://{ip}/YamahaRemoteControl/ctrl';
 
   this.ip = ip;
+  this.filter = filter;
 }
 
 YamahaDiscovery.prototype.getUrl = function(){
@@ -34,7 +35,7 @@ YamahaDiscovery.prototype.getIp = function(){
     var self = this;
     this.ssdpClient.on('response', function (headers, statusCode, rinfo){
       if (statusCode == 200) {
-        getDescription(headers.LOCATION, function (){
+        getDescription(headers.LOCATION, self.filter, function (){
           if (self.timer){
             clearTimeout(self.timer);
             self.timer = null;
@@ -58,25 +59,31 @@ YamahaDiscovery.prototype.getIp = function(){
   return deferred.promise;
 };
 
-function getDescription(loc, successAction){
+function getDescription(loc, filter, successAction){
   var request = Request.get({
     method: 'GET',
     uri: loc
   },
   function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      validateDescription(body, successAction);
+      validateDescription(body, filter, successAction);
     }
   });
 }
 
-function validateDescription(body, successAction){
+function validateDescription(body, filter, successAction){
   parseString(body, function(err, result){
     if (!err){
       var manufacturer = result.root.device[0].manufacturer[0];
       var modelDescription = result.root.device[0].modelDescription[0];
       if (manufacturer.match(/yamaha/i) && modelDescription.match(/AV/)){
-        successAction();
+        if (filter !== undefined) {
+          if (filter(result.root.device[0])) {
+            successAction();
+          }
+        } else {
+          successAction();
+        }
       }
     }
   });

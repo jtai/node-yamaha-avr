@@ -5,9 +5,9 @@ var parseString = require('xml2js').parseString;
 var YamahaCommands = require('./yamahaCommands');
 var YamahaDiscovery = require('./yamahaDiscovery');
 
-function Yamaha(ip){
+function Yamaha(ip, filter){
   this.commands = new YamahaCommands();
-  this.discovery = new YamahaDiscovery(ip);
+  this.discovery = new YamahaDiscovery(ip, filter);
 }
 
 Yamaha.prototype.discover = function(){
