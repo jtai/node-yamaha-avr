@@ -84,6 +84,13 @@ Yamaha.prototype.setVolume = function(volume){
   });
 };
 
+Yamaha.prototype.getInput = function(){
+  var xml = this.commands.basicStatusCommand();
+  return deferredAction(this.discovery, xml, function(result){
+    return result.YAMAHA_AV.Main_Zone[0].Basic_Status[0].Input[0].Input_Sel[0];
+  });
+};
+
 Yamaha.prototype.setInput = function(input_name){
   var xml = this.commands.setInputCommand(input_name);
 
@@ -99,6 +106,50 @@ Yamaha.prototype.setScene = function(scene_num){
   return deferredAction(this.discovery, xml, function(result){
     // Responses Scene_Sel is ''
     return result.YAMAHA_AV.Main_Zone[0].Scene[0].Scene_Sel[0] !== undefined;
+  });
+};
+
+Yamaha.prototype.getPlayInfo = function(input){
+  var xml = this.commands.playInfoCommand(input);
+
+  return deferredAction(this.discovery, xml, function(result){
+    return result;
+  });
+};
+
+Yamaha.prototype.play = function(input){
+  var xml = this.commands.playCommand(input);
+
+  return deferredAction(this.discovery, xml, function(result){
+    // Responses Playback is ''
+    return result.YAMAHA_AV[input][0].Play_Control[0].Playback[0] !== undefined;
+  });
+};
+
+Yamaha.prototype.pause = function(input){
+  var xml = this.commands.pauseCommand(input);
+
+  return deferredAction(this.discovery, xml, function(result){
+    // Responses Playback is ''
+    return result.YAMAHA_AV[input][0].Play_Control[0].Playback[0] !== undefined;
+  });
+};
+
+Yamaha.prototype.skipFwd = function(input){
+  var xml = this.commands.skipFwdCommand(input);
+
+  return deferredAction(this.discovery, xml, function(result){
+    // Responses Playback is ''
+    return result.YAMAHA_AV[input][0].Play_Control[0].Playback[0] !== undefined;
+  });
+};
+
+Yamaha.prototype.skipRev = function(input){
+  var xml = this.commands.skipRevCommand(input);
+
+  return deferredAction(this.discovery, xml, function(result){
+    // Responses Playback is ''
+    return result.YAMAHA_AV[input][0].Play_Control[0].Playback[0] !== undefined;
   });
 };
 

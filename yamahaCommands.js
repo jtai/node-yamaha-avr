@@ -19,6 +19,13 @@ function YamahaCommands()
 
   this.setInput = '<Input><Input_Sel>{input}</Input_Sel></Input>';
   this.setScene = '<Scene><Scene_Sel>Scene {scene}</Scene_Sel></Scene>';
+
+  this.playInfo = '<{input}><Play_Info>GetParam</Play_Info></{input}>';
+
+  this.play = '<{input}><Play_Control><Playback>Play</Playback></Play_Control></{input}>';
+  this.pause = '<{input}><Play_Control><Playback>Pause</Playback></Play_Control></{input}>';
+  this.skipFwd = '<{input}><Play_Control><Playback>Skip Fwd</Playback></Play_Control></{input}>';
+  this.skipRev = '<{input}><Play_Control><Playback>Skip Rev</Playback></Play_Control></{input}>';
 }
 
 YamahaCommands.prototype.basicStatusCommand = function(){
@@ -98,5 +105,40 @@ YamahaCommands.prototype.setSceneCommand = function(scene_num){
 
   return this.commandWrapper.format({command : cmd, payload : pload});
 };
+
+YamahaCommands.prototype.playInfoCommand = function(input){
+  var cmd = 'GET';
+  var pload = this.playInfo.format({input : input});
+
+  return this.commandWrapper.format({command : cmd, payload : pload});
+}
+
+YamahaCommands.prototype.playCommand = function(input){
+  var cmd = 'PUT';
+  var pload = this.play.format({input : input});
+
+  return this.commandWrapper.format({command : cmd, payload : pload});
+}
+
+YamahaCommands.prototype.pauseCommand = function(input){
+  var cmd = 'PUT';
+  var pload = this.pause.format({input : input});
+
+  return this.commandWrapper.format({command : cmd, payload : pload});
+}
+
+YamahaCommands.prototype.skipFwdCommand = function(input){
+  var cmd = 'PUT';
+  var pload = this.skipFwd.format({input : input});
+
+  return this.commandWrapper.format({command : cmd, payload : pload});
+}
+
+YamahaCommands.prototype.skipRevCommand = function(input){
+  var cmd = 'PUT';
+  var pload = this.skipRev.format({input : input});
+
+  return this.commandWrapper.format({command : cmd, payload : pload});
+}
 
 module.exports = YamahaCommands;
