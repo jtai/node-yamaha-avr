@@ -123,6 +123,10 @@ function GetPlayInfo(){
       var meta = result.YAMAHA_AV[input][0].Play_Info[0].Meta_Info[0];
       console.log("Artist:", meta.Artist[0]);
       console.log("Album:", meta.Album[0]);
-      console.log("Song:", meta.Song[0]);
+      if (meta.Song !== undefined) {
+        console.log("Song:", meta.Song[0]);
+      } else if (meta.Track !== undefined) {
+        console.log("Track:", meta.Track[0]);
+      }
     });
 }
