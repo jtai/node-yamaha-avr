@@ -113,8 +113,8 @@ Yamaha.prototype.setSoundProgram = function(sound_program){
   var xml = this.commands.setSoundProgramCommand(sound_program);
 
   return deferredAction(this.discovery, xml, function(result){
-    // Responses Sound_Program is ''
-    return result.YAMAHA_AV.Main_Zone[0].Surround[0].Program_Sel[0].Current[0].Sound_Program[0] !== undefined;
+    // Responses Current is ''
+    return result.YAMAHA_AV.Main_Zone[0].Surround[0].Program_Sel[0].Current[0] !== undefined;
   });
 };
 
@@ -122,8 +122,8 @@ Yamaha.prototype.setStraight = function(state){
   var xml = this.commands.setStraightCommand(state);
 
   return deferredAction(this.discovery, xml, function(result){
-    // Responses Straight is ''
-    return result.YAMAHA_AV.Main_Zone[0].Surround[0].Program_Sel[0].Current[0].Straight[0] !== undefined;
+    // Responses Current is ''
+    return result.YAMAHA_AV.Main_Zone[0].Surround[0].Program_Sel[0].Current[0] !== undefined;
   });
 };
 
