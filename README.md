@@ -25,6 +25,7 @@ via SSDP. Discovery can take up to 3 seconds.
 * v set volume (in 0.5 dB steps from –80.5 dB to 16.5 dB (very loud!), written as `-805` to `165`)
 * i set input (HDMIx, AVx, AUDI, TUNER ...)
 * e set scene (1, 2, 3 ...)
+* g set sound program (Hall in Munich, Hall in Vienna, 2ch Stereo, 7ch Stereo, ..., or special value "Straight")
 * n get currently playing song
 * l play
 * u pause
@@ -43,6 +44,7 @@ node main.js m off
 node main.js v -550
 node main.js i HDMI1
 node main.js e 2
+node main.js g "7ch Stereo"
 node main.js n
 node main.js l
 node main.js u

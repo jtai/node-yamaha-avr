@@ -50,6 +50,14 @@ yamaha.discover()
           console.log("Set scene to: " + params);
           yamaha.setScene(params);
           break;
+        case 'g':
+          console.log("Set sound program to: " + params);
+          if (params == 'Straight') {
+            yamaha.setStraight('On');
+          } else {
+            yamaha.setSoundProgram(params);
+          }
+          break;
         case 'n':
           GetPlayInfo();
           break;

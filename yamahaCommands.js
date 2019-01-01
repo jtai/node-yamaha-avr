@@ -19,6 +19,8 @@ function YamahaCommands()
 
   this.setInput = '<Input><Input_Sel>{input}</Input_Sel></Input>';
   this.setScene = '<Scene><Scene_Sel>Scene {scene}</Scene_Sel></Scene>';
+  this.setSoundProgram = '<Surround><Program_Sel><Current><Sound_Program>{program}</Sound_Program></Current></Program_Sel></Surround>';
+  this.setStraight = '<Surround><Program_Sel><Current><Straight>{state}</Straight></Current></Program_Sel></Surround>';
 
   this.playInfo = '<{input}><Play_Info>GetParam</Play_Info></{input}>';
 
@@ -101,6 +103,22 @@ YamahaCommands.prototype.setInputCommand = function(input_name){
 YamahaCommands.prototype.setSceneCommand = function(scene_num){
   var cmd = 'PUT';
   var request = this.setScene.format({scene : scene_num});
+  var pload = this.mainZoneWrapper.format({request_text : request});
+
+  return this.commandWrapper.format({command : cmd, payload : pload});
+};
+
+YamahaCommands.prototype.setSoundProgramCommand = function(sound_program){
+  var cmd = 'PUT';
+  var request = this.setSoundProgram.format({program : sound_program});
+  var pload = this.mainZoneWrapper.format({request_text : request});
+
+  return this.commandWrapper.format({command : cmd, payload : pload});
+};
+
+YamahaCommands.prototype.setStraightCommand = function(selectedState){
+  var cmd = 'PUT';
+  var request = this.setStraight.format({state : selectedState});
   var pload = this.mainZoneWrapper.format({request_text : request});
 
   return this.commandWrapper.format({command : cmd, payload : pload});
