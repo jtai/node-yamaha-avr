@@ -28,6 +28,10 @@ function YamahaCommands()
   this.pause = '<{input}><Play_Control><Playback>Pause</Playback></Play_Control></{input}>';
   this.skipFwd = '<{input}><Play_Control><Playback>Skip Fwd</Playback></Play_Control></{input}>';
   this.skipRev = '<{input}><Play_Control><Playback>Skip Rev</Playback></Play_Control></{input}>';
+
+  this.listInfo = '<{input}><List_Info>GetParam</List_Info></{input}>';
+  this.listControlJumpLine = '<{input}><List_Control><Jump_Line>{line}</Jump_Line></List_Control></{input}>';
+  this.listControlCursor = '<{input}><List_Control><Cursor>{cursor}</Cursor></List_Control></{input}>';
 }
 
 YamahaCommands.prototype.basicStatusCommand = function(){
@@ -155,6 +159,27 @@ YamahaCommands.prototype.skipFwdCommand = function(input){
 YamahaCommands.prototype.skipRevCommand = function(input){
   var cmd = 'PUT';
   var pload = this.skipRev.format({input : input});
+
+  return this.commandWrapper.format({command : cmd, payload : pload});
+}
+
+YamahaCommands.prototype.listInfoCommand = function(input){
+  var cmd = 'GET';
+  var pload = this.listInfo.format({input : input});
+
+  return this.commandWrapper.format({command : cmd, payload : pload});
+}
+
+YamahaCommands.prototype.listControlJumpLineCommand = function(input, line){
+  var cmd = 'PUT';
+  var pload = this.listControlJumpLine.format({input : input, line : line});
+
+  return this.commandWrapper.format({command : cmd, payload : pload});
+}
+
+YamahaCommands.prototype.listControlCursorCommand = function(input, cursor){
+  var cmd = 'PUT';
+  var pload = this.listControlCursor.format({input : input, cursor : cursor});
 
   return this.commandWrapper.format({command : cmd, payload : pload});
 }

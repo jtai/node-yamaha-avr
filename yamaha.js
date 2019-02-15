@@ -171,6 +171,33 @@ Yamaha.prototype.skipRev = function(input){
   });
 };
 
+Yamaha.prototype.listInfo = function(input){
+  var xml = this.commands.listInfoCommand(input);
+
+  return deferredAction(this.discovery, xml, function(result){
+    return result.YAMAHA_AV[input][0];
+  });
+};
+
+Yamaha.prototype.listControlJumpLine = function(input, line){
+  var xml = this.commands.listControlJumpLineCommand(input, line);
+
+  return deferredAction(this.discovery, xml, function(result){
+    // Responses Jump_Line is ''
+    return result.YAMAHA_AV[input][0].List_Control[0].Jump_Line[0] !== undefined;
+  });
+};
+
+// cursor is one of: Up, Down, Return (go back one), Sel (select), Return to Home
+Yamaha.prototype.listControlCursor = function(input, cursor){
+  var xml = this.commands.listControlCursorCommand(input, cursor);
+
+  return deferredAction(this.discovery, xml, function(result){
+    // Responses Cursor is ''
+    return result.YAMAHA_AV[input][0].List_Control[0].Cursor[0] !== undefined;
+  });
+};
+
 function deferredAction(discovery, commandXml, parseAction){
   var deferred = Q.defer();
 
